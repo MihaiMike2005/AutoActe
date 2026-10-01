@@ -12,6 +12,7 @@ import {
   getDocumentsForCase,
 } from "@/lib/mock/demo-data";
 import { documentsStepStatus } from "@/lib/cases/document-requirements";
+import { canAdvanceCase } from "@/lib/cases/permissions";
 import { ScenarioSchema, VinSchema } from "@/lib/validators";
 import { legalDeadlineFor, stepsFor } from "@/lib/state-machine/wizard";
 import { estimateCosts } from "@/lib/calculators/costuri";
@@ -140,7 +141,7 @@ export async function advanceStepAction(formData: FormData) {
 
   const caseId = String(formData.get("case_id"));
   const c = demoCases.find((x) => x.id === caseId);
-  if (!c) redirect("/dashboard");
+  if (!c || !canAdvanceCase(session, c)) redirect("/dashboard");
 
   if (c.current_step === "documents_upload") {
     const vehicle = demoVehicles.find((v) => v.id === c.vehicle_id);
