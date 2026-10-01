@@ -6,15 +6,24 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { advanceStepAction } from "@/lib/cases/actions";
 import {
   getAppointmentsForCase,
+  getDemoProfileById,
   getDocumentsForCase,
   getOrgById,
   ORG_IDS,
 } from "@/lib/mock/demo-data";
 import { STEP_META } from "@/lib/state-machine/wizard";
+import { documentKind } from "@/lib/ocr/document-kinds";
 import { DocumentUploadStep } from "./document-upload";
-import { VinLookup } from "./vin-lookup";
-import type { RegistrationCase, Vehicle } from "@/types/domain";
+import { VinLookup, type AutofillInfo } from "./vin-lookup";
+import type { DocumentType, RegistrationCase, Vehicle } from "@/types/domain";
 import { formatDateRO, formatRON } from "@/lib/utils";
+
+function readAutofill(c: RegistrationCase): AutofillInfo | undefined {
+  const raw = c.metadata.autofill as { fields?: string[]; source?: DocumentType; at?: string } | undefined;
+  if (!raw?.fields?.length || !raw.source || !raw.at) return undefined;
+  const fresh = Date.now() - Date.parse(raw.at) < 20_000;
+  return { fields: raw.fields, sourceTitle: documentKind(raw.source).title, fresh };
+}
 
 export function StepRenderer({
   case: c,
@@ -43,12 +52,22 @@ export function StepRenderer({
           <Card>
             <CardContent className="space-y-4 p-6">
               <h3 className="text-base font-semibold">Identifică vehiculul</h3>
-              <VinLookup caseId={c.id} vehicle={vehicle} />
+              <VinLookup
+                key={`${vehicle.vin}-${vehicle.make}-${vehicle.engine_capacity_cc ?? ""}`}
+                caseId={c.id}
+                vehicle={vehicle}
+                autofill={readAutofill(c)}
+              />
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-6">
-              <DocumentUploadStep caseId={c.id} scenario={c.scenario} documents={documents} />
+              <DocumentUploadStep
+                case={c}
+                vehicle={vehicle}
+                documents={documents}
+                citizen={getDemoProfileById(c.citizen_id)}
+              />
             </CardContent>
           </Card>
         </div>

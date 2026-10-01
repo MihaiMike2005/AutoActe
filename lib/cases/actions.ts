@@ -1,20 +1,29 @@
 "use server";
 
+import { refresh } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { getSession } from "@/lib/auth/session";
+import { getSession, requireRole } from "@/lib/auth/session";
 import {
   demoCases,
   demoVehicles,
   demoDocuments,
-  ORG_IDS,
+  getDemoProfileById,
+  getDocumentsForCase,
 } from "@/lib/mock/demo-data";
+import { documentsStepStatus } from "@/lib/cases/document-requirements";
 import { ScenarioSchema, VinSchema } from "@/lib/validators";
 import { legalDeadlineFor, stepsFor } from "@/lib/state-machine/wizard";
 import { estimateCosts } from "@/lib/calculators/costuri";
+import { publishEvent } from "@/lib/events/publish";
+import { AUTOFILL_LABELS, applyAutofill } from "@/lib/ocr/autofill";
+import { formatProblem } from "@/lib/ocr/confidence";
+import { documentKind, type FieldValue } from "@/lib/ocr/document-kinds";
+import { normalizeFields } from "@/lib/ocr/extract";
+import { deleteStoredFile, storeFile, takePendingUpload } from "@/lib/ocr/upload-store";
 import type {
   CaseStep,
-  DocumentType,
+  DocumentRecord,
   RegistrationCase,
   Vehicle,
 } from "@/types/domain";
@@ -133,6 +142,19 @@ export async function advanceStepAction(formData: FormData) {
   const c = demoCases.find((x) => x.id === caseId);
   if (!c) redirect("/dashboard");
 
+  if (c.current_step === "documents_upload") {
+    const vehicle = demoVehicles.find((v) => v.id === c.vehicle_id);
+    const status = vehicle
+      ? documentsStepStatus({
+          case: c,
+          vehicle,
+          documents: getDocumentsForCase(c.id),
+          citizen: getDemoProfileById(c.citizen_id),
+        })
+      : null;
+    if (!status?.ready) redirect(`/cases/${caseId}`);
+  }
+
   const seq = stepsFor(c.scenario);
   const idx = seq.indexOf(c.current_step);
   const currentStep = c.steps.find((s) => s.step_code === c.current_step);
@@ -157,32 +179,103 @@ export async function advanceStepAction(formData: FormData) {
   redirect(`/cases/${caseId}`);
 }
 
-export async function addStubDocumentAction(formData: FormData) {
+export type ConfirmDocumentResult =
+  | { ok: true; document_id: string; autofilled: string[] }
+  | { ok: false; error: string };
+
+export async function confirmDocumentAction(input: {
+  case_id: string;
+  upload_id: string;
+  fields: Record<string, FieldValue>;
+}): Promise<ConfirmDocumentResult> {
   const session = await getSession();
-  if (!session) redirect("/login");
+  if (!session || !requireRole(session, "citizen")) {
+    return { ok: false, error: "Sesiunea a expirat. Autentifică-te din nou." };
+  }
+  const c = demoCases.find((x) => x.id === input.case_id && x.citizen_id === session.user_id);
+  if (!c) return { ok: false, error: "Dosarul nu a fost găsit." };
 
-  const caseId = String(formData.get("case_id"));
-  const type = String(formData.get("type")) as DocumentType;
-  const c = demoCases.find((x) => x.id === caseId);
-  if (!c) redirect("/dashboard");
+  const upload = takePendingUpload(input.upload_id, session.user_id);
+  if (!upload || upload.case_id !== c.id) {
+    return { ok: false, error: "Scanarea a expirat. Fotografiază documentul din nou." };
+  }
 
-  demoDocuments.push({
-    id: "d-" + Math.random().toString(36).slice(2, 10),
-    case_id: caseId,
-    owner_id: session.user_id,
-    type,
-    file_url: "/demo/upload-placeholder.jpg",
-    file_hash: "sha256:" + Math.random().toString(36).slice(2),
-    mime_type: "image/jpeg",
-    ocr_extracted_data: {},
-    ocr_confidence: 0.82,
-    ocr_provider: "claude-vision-demo",
-    validated: false,
-    validation_errors: [],
-    uploaded_at: new Date().toISOString(),
+  const kind = documentKind(upload.type);
+  const fields = normalizeFields(upload.type, input.fields ?? {});
+  const corrected = kind.fields.some((f) => fields[f.key] !== upload.fields[f.key]);
+  const validationErrors = kind.fields.flatMap((f) => {
+    const problem = formatProblem(f, fields[f.key]);
+    return problem ? [{ field: f.key, message: problem }] : [];
   });
 
-  c.updated_at = new Date().toISOString();
-  void ORG_IDS;
-  redirect(`/cases/${caseId}`);
+  for (let i = demoDocuments.length - 1; i >= 0; i--) {
+    const d = demoDocuments[i];
+    if (d.case_id === c.id && d.type === upload.type) {
+      demoDocuments.splice(i, 1);
+      deleteStoredFile(d.id);
+    }
+  }
+
+  const now = new Date().toISOString();
+  const documentId = `d-${crypto.randomUUID().slice(0, 8)}`;
+  storeFile(documentId, { mime_type: upload.mime_type, bytes: upload.bytes, owner_id: session.user_id });
+  const doc: DocumentRecord = {
+    id: documentId,
+    case_id: c.id,
+    vehicle_id: c.vehicle_id,
+    owner_id: session.user_id,
+    type: upload.type,
+    file_url: `/api/internal/documents/${documentId}/file`,
+    file_hash: upload.file_hash,
+    file_size_bytes: upload.bytes.byteLength,
+    mime_type: upload.mime_type,
+    ocr_extracted_data: fields,
+    ocr_confidence: upload.confidence,
+    ocr_provider: upload.provider,
+    validated: false,
+    validation_errors: validationErrors,
+    uploaded_at: now,
+  };
+  demoDocuments.push(doc);
+
+  publishEvent("ro.autoacte.document.uploaded", {
+    document_id: documentId,
+    case_id: c.id,
+    type: upload.type,
+    owner_id: session.user_id,
+  });
+  publishEvent("ro.autoacte.document.ocr_completed", {
+    document_id: documentId,
+    confidence: upload.confidence,
+    extracted_data: fields,
+    corrected_by_citizen: corrected,
+  });
+
+  const vehicle = demoVehicles.find((v) => v.id === c.vehicle_id);
+  const autofilled = vehicle ? applyAutofill(upload.type, fields, vehicle, c) : [];
+  if (vehicle && autofilled.length) {
+    c.metadata.autofill = { fields: autofilled, source: upload.type, at: now };
+    c.estimated_total_cost = estimateCosts({
+      scenario: c.scenario,
+      engineCapacityCc: vehicle.engine_capacity_cc,
+      imported: c.scenario.startsWith("imported"),
+    }).total;
+  }
+  c.updated_at = now;
+
+  refresh();
+  return { ok: true, document_id: documentId, autofilled: autofilled.map((k) => AUTOFILL_LABELS[k] ?? k) };
+}
+
+export async function removeDocumentAction(documentId: string): Promise<{ ok: boolean }> {
+  const session = await getSession();
+  if (!session || !requireRole(session, "citizen")) return { ok: false };
+
+  const idx = demoDocuments.findIndex((d) => d.id === documentId && d.owner_id === session.user_id);
+  if (idx < 0) return { ok: false };
+  demoDocuments.splice(idx, 1);
+  deleteStoredFile(documentId);
+
+  refresh();
+  return { ok: true };
 }

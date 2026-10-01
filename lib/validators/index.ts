@@ -13,6 +13,20 @@ export const CnpSchema = z
   .length(13, "CNP-ul trebuie să aibă 13 cifre")
   .regex(/^[1-8]\d{12}$/, "CNP invalid");
 
+const CNP_WEIGHTS = [2, 7, 9, 1, 4, 6, 3, 5, 8, 2, 7, 9];
+
+export function isValidCnp(value: string): boolean {
+  const cnp = value.trim();
+  if (!/^[1-8]\d{12}$/.test(cnp)) return false;
+  const sum = CNP_WEIGHTS.reduce((acc, w, i) => acc + w * Number(cnp[i]), 0);
+  const control = sum % 11 === 10 ? 1 : sum % 11;
+  return control === Number(cnp[12]);
+}
+
+export function isValidVin(value: string): boolean {
+  return VinSchema.safeParse(value).success;
+}
+
 export const PhoneRoSchema = z
   .string()
   .trim()
@@ -29,6 +43,21 @@ export const ScenarioSchema = z.enum([
   "used_ro",
   "imported_eu",
   "imported_non_eu",
+]);
+
+export const DocumentTypeSchema = z.enum([
+  "id_card",
+  "brief_foreign",
+  "kaufvertrag",
+  "coc",
+  "civ",
+  "rca_policy",
+  "itp_certificate",
+  "ownership_contract",
+  "tva_certificate",
+  "fiscal_certificate",
+  "translation",
+  "other",
 ]);
 
 export const LoginSchema = z.object({

@@ -14,6 +14,8 @@ Everything works without external services. If `.env.local` is missing keys (`NE
 
 Plug real keys into `.env.local` (template at `.env.local.example`) to swap in Supabase, Anthropic, ElevenLabs, Resend.
 
+OCR runs through `POST /api/internal/ocr` (`lib/ocr/`). Without `ANTHROPIC_API_KEY` it returns consistent demo extractions from `lib/ocr/demo-samples.ts`; with a key it calls Claude with structured outputs (model from `ANTHROPIC_OCR_MODEL`, default `claude-sonnet-5-5`). Uploaded files and pending scans live in a `globalThis` store (`lib/ocr/upload-store.ts`) so route handlers and Server Actions share them. Uploads are capped at 8 MB because the proxy buffers only 10 MB of request body.
+
 ## Folder map
 
 - `app/(auth|citizen|servant|dealer)/…` — route groups by role
@@ -54,7 +56,7 @@ In demo mode 2FA always accepts `123456`. In Supabase mode the code is sent via 
 - ✅ Phase 0 — bootstrap, deps, tokens, folder structure
 - ✅ Phase 1 — migrations + auth + landing
 - ✅ Phase 2 — citizen wizard core
-- ⏳ Phase 3 — OCR + magic moments (Claude Vision)
+- ✅ Phase 3 — OCR + magic moments (Claude Vision)
 - ⏳ Phase 4 — functionary portal
 - ⏳ Phase 5 — marketplace + dealer B2B
 - ⏳ Phase 6 — chatbot, voice guide, push, email, maps

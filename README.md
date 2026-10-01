@@ -75,7 +75,7 @@ See [CLAUDE.md](CLAUDE.md) for the full project context, [EVENTS.md](EVENTS.md) 
 - [x] Phase 0 — Bootstrap (Next.js 16 + Tailwind v4 + folder structure)
 - [x] Phase 1 — Schema + auth + landing
 - [x] Phase 2 — Citizen wizard core
-- [ ] Phase 3 — Claude Vision OCR
+- [x] Phase 3 — Claude Vision OCR
 - [ ] Phase 4 — Functionary portal
 - [ ] Phase 5 — Marketplace + dealer B2B
 - [ ] Phase 6 — Chatbot + voice + push + email

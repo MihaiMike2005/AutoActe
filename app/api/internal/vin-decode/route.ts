@@ -60,7 +60,7 @@ export async function GET(req: Request) {
         source: "NHTSA",
       },
     });
-  } catch (err) {
+  } catch {
     return NextResponse.json(
       {
         data: null,

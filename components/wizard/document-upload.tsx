@@ -1,176 +1,98 @@
-"use client";
-
-import { Camera, Check, FileCheck2, FileText, Loader2, ScanText, Sparkles, Upload } from "lucide-react";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { ArrowRight, CheckCircle2, Circle, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { addStubDocumentAction } from "@/lib/cases/actions";
-import type { DocumentRecord, DocumentType, RegistrationScenario } from "@/types/domain";
-import { cn } from "@/lib/utils";
-
-type DocSlot = {
-  key: DocumentType;
-  label: string;
-  hint: string;
-  required: boolean;
-};
-
-const DEFAULT_SLOTS: Record<RegistrationScenario, DocSlot[]> = {
-  new_ro: [
-    { key: "id_card",            label: "Carte de identitate", hint: "Față + verso, focus clar pe CNP", required: true },
-    { key: "ownership_contract", label: "Factură achiziție",   hint: "De la dealer-ul autorizat",        required: true },
-    { key: "civ",                label: "CIV",                  hint: "Cartea de identitate a vehiculului", required: true },
-    { key: "coc",                label: "COC (omologare)",      hint: "Document UE de conformitate",       required: false },
-  ],
-  used_ro: [
-    { key: "id_card",            label: "Carte de identitate",  hint: "Față + verso", required: true },
-    { key: "civ",                label: "CIV vechi",            hint: "De la fostul proprietar", required: true },
-    { key: "ownership_contract", label: "Contract vânzare",     hint: "Semnat în 2 exemplare", required: true },
-    { key: "fiscal_certificate", label: "Certificat fiscal",    hint: "Eliberat de DGITL fost proprietar", required: true },
-  ],
-  imported_eu: [
-    { key: "id_card",     label: "Carte de identitate", hint: "Față + verso", required: true },
-    { key: "brief_foreign", label: "Brief / Fahrzeugbrief", hint: "Documentul de înmatriculare din UE", required: true },
-    { key: "kaufvertrag", label: "Kaufvertrag / Contract", hint: "Contract de vânzare-cumpărare", required: true },
-    { key: "coc",         label: "COC",                  hint: "Certificate of Conformity",      required: true },
-    { key: "translation", label: "Traduceri legalizate", hint: "Pentru brief + kaufvertrag",     required: false },
-  ],
-  imported_non_eu: [
-    { key: "id_card",     label: "Carte de identitate", hint: "Față + verso", required: true },
-    { key: "brief_foreign", label: "Documente origine", hint: "Title sau echivalent", required: true },
-    { key: "kaufvertrag", label: "Bill of sale",         hint: "Contract de vânzare", required: true },
-    { key: "translation", label: "Traduceri + apostilă", hint: "Toate documentele",  required: true },
-  ],
-};
+import { DemoModeBadge } from "@/components/shared/demo-mode-badge";
+import { CrossValidationPanel } from "@/components/ocr/cross-validation-panel";
+import { DocumentCapture } from "@/components/ocr/document-capture";
+import { advanceStepAction } from "@/lib/cases/actions";
+import { documentsStepStatus } from "@/lib/cases/document-requirements";
+import { hasIntegration } from "@/lib/env";
+import type { DocumentRecord, Profile, RegistrationCase, Vehicle } from "@/types/domain";
 
 export function DocumentUploadStep({
-  caseId,
-  scenario,
+  case: c,
+  vehicle,
   documents,
+  citizen,
 }: {
-  caseId: string;
-  scenario: RegistrationScenario;
+  case: RegistrationCase;
+  vehicle: Vehicle;
   documents: DocumentRecord[];
+  citizen?: Profile;
 }) {
-  const slots = DEFAULT_SLOTS[scenario];
+  const status = documentsStepStatus({ case: c, vehicle, documents, citizen });
+  const requirements = [
+    { done: status.vehicleReady, label: "Vehicul identificat (VIN salvat)" },
+    ...status.slots
+      .filter((s) => s.required)
+      .map((s) => ({ done: !status.missing.includes(s), label: s.label })),
+    { done: status.failing.length === 0, label: "Nicio verificare încrucișată eșuată" },
+  ];
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6">
+      <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h3 className="text-base font-semibold">Documente necesare</h3>
           <p className="text-sm text-[--color-muted-foreground]">
-            Fotografiază fiecare document — Claude Vision extrage datele și completează formularele.
+            Fotografiază fiecare document. Claude Vision extrage datele, iar tu doar le confirmi.
           </p>
         </div>
-        <Badge variant="accent" className="gap-1">
-          <Sparkles className="h-3 w-3" /> OCR activ
-        </Badge>
+        {hasIntegration("anthropic") ? (
+          <Badge variant="accent" className="gap-1">
+            <Sparkles className="h-3 w-3" aria-hidden /> Claude Vision
+          </Badge>
+        ) : (
+          <DemoModeBadge label="OCR demo" />
+        )}
       </div>
 
       <div className="grid gap-3 md:grid-cols-2">
-        {slots.map((slot) => {
-          const doc = documents.find((d) => d.type === slot.key);
-          return <DocumentSlot key={slot.key} slot={slot} caseId={caseId} document={doc} />;
-        })}
+        {status.slots.map((slot) => (
+          <DocumentCapture
+            key={slot.key}
+            caseId={c.id}
+            scenario={c.scenario}
+            slot={slot}
+            document={documents.find((d) => d.type === slot.key)}
+          />
+        ))}
+      </div>
+
+      {documents.length >= 2 ? <CrossValidationPanel checks={status.checks} /> : null}
+
+      <div className="rounded-xl border border-[--color-border] bg-[--color-secondary] p-4">
+        {status.ready ? (
+          <form action={advanceStepAction} className="flex flex-wrap items-center justify-between gap-3">
+            <input type="hidden" name="case_id" value={c.id} />
+            <p className="flex items-center gap-2 text-sm font-medium text-emerald-800">
+              <CheckCircle2 className="h-4 w-4" aria-hidden /> Dosarul de documente este complet și verificat.
+            </p>
+            <Button type="submit" size="lg">
+              Continuă la pasul următor <ArrowRight className="h-4 w-4" aria-hidden />
+            </Button>
+          </form>
+        ) : (
+          <div className="space-y-2">
+            <p className="text-sm font-medium">Ca să continui, mai ai nevoie de:</p>
+            <ul className="grid gap-1.5 text-sm sm:grid-cols-2">
+              {requirements.map((r) => (
+                <li key={r.label} className="flex items-center gap-2">
+                  {r.done ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600" aria-hidden />
+                  ) : (
+                    <Circle className="h-4 w-4 text-[--color-muted-foreground]" aria-hidden />
+                  )}
+                  <span className={r.done ? "text-[--color-muted-foreground] line-through" : undefined}>
+                    <span className="sr-only">{r.done ? "Gata: " : "De făcut: "}</span>
+                    {r.label}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
-  );
-}
-
-function DocumentSlot({
-  slot,
-  caseId,
-  document,
-}: {
-  slot: DocSlot;
-  caseId: string;
-  document?: DocumentRecord;
-}) {
-  const [pending, setPending] = useState(false);
-  const uploaded = Boolean(document);
-  const confidence = document?.ocr_confidence ?? null;
-  const tone =
-    confidence === null
-      ? "border-[--color-border]"
-      : confidence >= 0.9
-        ? "border-emerald-200 bg-emerald-50/50"
-        : confidence >= 0.7
-          ? "border-amber-200 bg-amber-50/50"
-          : "border-red-200 bg-red-50/50";
-
-  return (
-    <motion.div
-      whileHover={{ y: -1 }}
-      className={cn("rounded-xl border p-4 transition-colors", tone)}
-    >
-      <div className="flex items-start justify-between gap-2">
-        <div className="flex items-start gap-3">
-          <div
-            className={cn(
-              "grid h-10 w-10 place-items-center rounded-lg",
-              uploaded
-                ? "bg-emerald-500/15 text-emerald-700"
-                : "bg-[--color-primary]/10 text-[--color-primary]",
-            )}
-          >
-            {uploaded ? <FileCheck2 className="h-5 w-5" /> : <FileText className="h-5 w-5" />}
-          </div>
-          <div>
-            <div className="flex items-center gap-2 font-semibold">
-              {slot.label}
-              {slot.required ? (
-                <Badge variant="muted" size="sm">Obligatoriu</Badge>
-              ) : (
-                <Badge variant="outline" size="sm">Opțional</Badge>
-              )}
-            </div>
-            <p className="text-xs text-[--color-muted-foreground]">{slot.hint}</p>
-          </div>
-        </div>
-        {uploaded ? (
-          <Badge variant={confidence! >= 0.9 ? "success" : confidence! >= 0.7 ? "warning" : "danger"}>
-            <ScanText className="h-3 w-3" /> {(confidence! * 100).toFixed(0)}%
-          </Badge>
-        ) : null}
-      </div>
-
-      {uploaded ? (
-        <div className="mt-3 space-y-1 rounded-md bg-white/70 p-2 text-xs">
-          {Object.entries(document!.ocr_extracted_data ?? {})
-            .slice(0, 4)
-            .map(([k, v]) => (
-              <div key={k} className="flex justify-between gap-3">
-                <span className="text-[--color-muted-foreground]">{k}</span>
-                <span className="font-mono">{String(v)}</span>
-              </div>
-            ))}
-        </div>
-      ) : (
-        <form
-          action={async (formData) => {
-            setPending(true);
-            try {
-              await addStubDocumentAction(formData);
-            } finally {
-              setPending(false);
-            }
-          }}
-          className="mt-3 flex flex-col gap-2 sm:flex-row"
-        >
-          <input type="hidden" name="case_id" value={caseId} />
-          <input type="hidden" name="type" value={slot.key} />
-          <Button type="submit" variant="outline" size="sm" className="flex-1" disabled={pending}>
-            {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Camera className="h-4 w-4" />}
-            Fotografiază (demo)
-          </Button>
-          <Button type="submit" variant="secondary" size="sm" className="flex-1" disabled={pending}>
-            {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
-            Încarcă PDF
-          </Button>
-        </form>
-      )}
-    </motion.div>
   );
 }
