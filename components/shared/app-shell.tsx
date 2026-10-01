@@ -1,17 +1,8 @@
 import Link from "next/link";
 import { Logo } from "./logo";
-import { Bell, FileText, Home, LayoutGrid, LogOut, ShoppingBag, User } from "lucide-react";
-import { logoutAction } from "@/lib/auth/actions";
+import { UserMenu } from "./user-menu";
+import { Bell, FileText, Home, LayoutGrid, ShoppingBag, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import type { Session } from "@/lib/auth/session";
 import { getNotificationsForUser } from "@/lib/mock/demo-data";
@@ -108,44 +99,11 @@ export function AppShell({
                 </Badge>
               ) : null}
             </Button>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="gap-2 px-2">
-                  <Avatar>
-                    <AvatarFallback>{initials || "AA"}</AvatarFallback>
-                  </Avatar>
-                  <div className="hidden text-left md:block">
-                    <div className="text-sm font-semibold leading-tight">{session.full_name}</div>
-                    <div className="text-xs text-[--color-muted-foreground]">{session.email}</div>
-                  </div>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>{session.email}</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/profile" className="flex items-center gap-2">
-                    <User className="h-4 w-4" /> Profil
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/ledger" className="flex items-center gap-2">
-                    <FileText className="h-4 w-4" /> Audit ledger
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <form action={logoutAction} className="w-full">
-                    <button
-                      type="submit"
-                      className="flex w-full items-center gap-2 text-left text-red-600"
-                    >
-                      <LogOut className="h-4 w-4" /> Deconectare
-                    </button>
-                  </form>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <UserMenu
+              fullName={session.full_name}
+              email={session.email}
+              initials={initials || "AA"}
+            />
           </div>
         </header>
 
