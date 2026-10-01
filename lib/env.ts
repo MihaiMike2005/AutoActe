@@ -11,6 +11,7 @@ export const env = {
     process.env.RESEND_FROM_EMAIL ?? "AutoActe <noreply@autoacte.ro>",
   APP_URL: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
   WEBHOOK_SIGNING_SECRET: process.env.WEBHOOK_SIGNING_SECRET ?? "dev-secret",
+  AUTH_SESSION_SECRET: process.env.AUTH_SESSION_SECRET ?? "",
   DEMO_MODE: process.env.NEXT_PUBLIC_DEMO_MODE !== "false",
 };
 

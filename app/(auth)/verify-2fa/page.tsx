@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { TwoFactorForm } from "@/components/auth/two-factor-form";
+import { DEMO_2FA_CODE } from "@/lib/auth/demo";
 import { getPending2FA } from "@/lib/auth/session";
 import { integrationStatus } from "@/lib/env";
 
@@ -20,7 +21,7 @@ export default async function Verify2FAPage() {
           Codul expiră în 5 minute.
         </p>
       </div>
-      <TwoFactorForm demoCode={integrationStatus.supabase ? null : pending.code} />
+      <TwoFactorForm demoCode={integrationStatus.supabase ? null : DEMO_2FA_CODE} />
     </div>
   );
 }

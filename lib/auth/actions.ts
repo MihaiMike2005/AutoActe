@@ -3,12 +3,14 @@
 import { redirect } from "next/navigation";
 import { LoginSchema, RegisterSchema, TwoFactorSchema } from "@/lib/validators";
 import {
+  checkPending2FACode,
   clearPending2FA,
   clearSession,
   getPending2FA,
   setPending2FA,
   setSession,
 } from "./session";
+import { DEMO_2FA_CODE } from "./demo";
 import {
   demoProfiles,
   getDemoProfileByEmail,
@@ -18,7 +20,6 @@ import type { Profile } from "@/types/domain";
 type FormState = { ok: boolean; error?: string };
 
 const DEMO_PASSWORD = "Demo2026!";
-const DEMO_2FA_CODE = "123456";
 
 function profileToSession(p: Profile, verified_2fa: boolean) {
   return {
@@ -123,7 +124,7 @@ export async function verifyTwoFactorAction(
   if (!pending) {
     return { ok: false, error: "Sesiune expirată. Te rugăm să te autentifici din nou." };
   }
-  if (parsed.data.code !== pending.code) {
+  if (!checkPending2FACode(pending, parsed.data.code)) {
     return { ok: false, error: "Cod incorect." };
   }
   const profile = demoProfiles.find((p) => p.id === pending.user_id);
