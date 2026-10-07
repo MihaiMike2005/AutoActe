@@ -8,22 +8,12 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <Logo inverted />
         <div className="max-w-md space-y-6">
           <h2 className="text-3xl font-bold leading-tight">
-            Un singur cont. Toate ghișeele. Niciun termen ratat.
+            Toate actele într-un singur dosar. Termenele mereu la vedere.
           </h2>
           <p className="text-white/70">
-            Suntem singura platformă care îți gestionează simultan dosarul la DGPCI, RAR, ANAF, DGITL și
-            asigurătorul tău — fără să mai depinzi de niciuna dintre cozile lor.
+            Un prototip care modelează pașii de la DGPCI, RAR, ANAF, DGITL și asigurător într-un singur
+            flux ghidat, cu date demo.
           </p>
-          <div className="grid grid-cols-2 gap-3 text-sm">
-            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <div className="text-2xl font-bold">9.4/10</div>
-              <div className="text-white/60">Net Promoter Score</div>
-            </div>
-            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <div className="text-2xl font-bold">99.97%</div>
-              <div className="text-white/60">Uptime ledger</div>
-            </div>
-          </div>
         </div>
         <p className="text-xs text-white/40">
           © 2026 AutoActe · Construit pentru oameni, nu pentru ghișee.

@@ -15,11 +15,13 @@ import {
   demoProfiles,
   getDemoProfileByEmail,
 } from "@/lib/mock/demo-data";
+import { integrationStatus } from "@/lib/env";
 import type { Profile } from "@/types/domain";
 
 type FormState = { ok: boolean; error?: string };
 
 const DEMO_PASSWORD = "Demo2026!";
+const DEMO_CITIZEN_EMAIL = "cetatean@demo.ro";
 
 function profileToSession(p: Profile, verified_2fa: boolean) {
   return {
@@ -141,6 +143,17 @@ export async function verifyTwoFactorAction(
         ? "/dealer/dashboard"
         : "/dashboard";
   redirect(dest);
+}
+
+export async function startDemoAction() {
+  if (integrationStatus.supabase) redirect("/login");
+
+  const profile = getDemoProfileByEmail(DEMO_CITIZEN_EMAIL);
+  if (!profile) redirect("/login");
+
+  await setSession(profileToSession(profile, true));
+  await clearPending2FA();
+  redirect("/dashboard");
 }
 
 export async function logoutAction() {

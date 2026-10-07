@@ -1,43 +1,51 @@
 import Link from "next/link";
 import {
   ArrowRight,
+  Building2,
+  Calculator,
+  CheckCircle2,
   Clock,
+  Code,
+  Inbox,
+  ListChecks,
   ScanText,
   ShieldCheck,
-  Sparkles,
-  Workflow,
-  CheckCircle2,
+  ShoppingBag,
+  Webhook,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/shared/logo";
 import { Badge } from "@/components/ui/badge";
+import { startDemoAction } from "@/lib/auth/actions";
+
+const REPO_URL = "https://github.com/MihaiMike2005/AutoActe";
 
 export default function Landing() {
   return (
     <div className="flex min-h-screen flex-col">
       <header className="absolute inset-x-0 top-0 z-20">
         <div className="container-page flex h-16 items-center justify-between">
-          <Logo inverted />
+          <Logo inverted className="sm:-ml-3 lg:-ml-4 2xl:-ml-8" />
           <nav className="hidden items-center gap-1 md:flex">
             <Button asChild variant="ghost" className="text-white/80 hover:bg-white/10 hover:text-white">
-              <Link href="#cum-funcționează">Cum funcționează</Link>
+              <Link href="#cum-functioneaza">Cum funcționează</Link>
             </Button>
             <Button asChild variant="ghost" className="text-white/80 hover:bg-white/10 hover:text-white">
-              <Link href="#impact">Impact</Link>
+              <Link href="#de-ce">De ce</Link>
             </Button>
             <Button asChild variant="ghost" className="text-white/80 hover:bg-white/10 hover:text-white">
-              <Link href="#ecosistem">Ecosistem</Link>
+              <Link href="#ce-urmeaza">Ce urmează</Link>
             </Button>
           </nav>
           <div className="flex items-center gap-2">
             <Button asChild variant="ghost" className="text-white/80 hover:bg-white/10 hover:text-white">
               <Link href="/login">Autentificare</Link>
             </Button>
-            <Button asChild className="shadow-lg shadow-(--color-primary)/30">
-              <Link href="/register">
-                Începe gratuit <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
+            <form action={startDemoAction} className="hidden sm:block">
+              <Button type="submit" className="shadow-lg shadow-(--color-primary)/30">
+                Încearcă demo <ArrowRight className="h-4 w-4" />
+              </Button>
+            </form>
           </div>
         </div>
       </header>
@@ -46,64 +54,39 @@ export default function Landing() {
       <section className="gradient-hero relative isolate overflow-hidden text-white">
         <div className="container-page pt-32 pb-24 md:pt-40 md:pb-32">
           <div className="mx-auto max-w-3xl text-center">
-            <Badge variant="accent" className="mb-6 bg-white/10 text-white border-white/15 backdrop-blur">
-              <Sparkles className="h-3.5 w-3.5" />
-              Cluj Hackathon 2026 — Digital Romania
-            </Badge>
             <h1 className="text-balance text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
-              Înmatricularea auto, <span className="text-(--color-accent)">finalizată într-o singură seară</span>.
+              Înmatricularea auto, <span className="text-(--color-accent)"><span className="whitespace-nowrap">într-un</span> singur flux digital</span>.
             </h1>
             <p className="mt-6 text-lg leading-relaxed text-white/75 md:text-xl">
-              AutoActe unește DGPCI, RAR, ANAF, DGITL și asigurătorii într-un flux digital end-to-end,
-              cu OCR Claude Vision, validare încrucișată automată și transparență blockchain-grade.
+              AutoActe este un prototip care modelează întregul drum al unei înmatriculări prin DGPCI, RAR,
+              ANAF, DGITL și asigurători. Fotografiezi documentele, Claude Vision completează câmpurile, iar
+              aplicația ține evidența termenelor legale și a costurilor.
             </p>
             <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-              <Button asChild size="xl" className="shadow-2xl shadow-(--color-primary)/40">
-                <Link href="/register">
-                  Pornește flux nou <ArrowRight className="h-5 w-5" />
-                </Link>
-              </Button>
+              <form action={startDemoAction}>
+                <Button type="submit" size="xl" className="shadow-2xl shadow-(--color-primary)/40">
+                  Încearcă demo-ul <ArrowRight className="h-5 w-5" />
+                </Button>
+              </form>
               <Button asChild size="xl" variant="outline" className="border-white/30 text-white bg-white/5 hover:bg-white/10">
-                <Link href="/login">Conectează-te cu cont demo</Link>
+                <a href={REPO_URL} target="_blank" rel="noopener noreferrer">
+                  <Code className="h-5 w-5" /> Codul sursă
+                </a>
               </Button>
             </div>
-            <p className="mt-4 text-xs text-white/50">
-              Demo: <code className="rounded bg-white/10 px-1.5 py-0.5">cetatean@demo.ro</code> /
-              <code className="ml-1 rounded bg-white/10 px-1.5 py-0.5">Demo2026!</code>
-              {" · "}
-              2FA: <code className="rounded bg-white/10 px-1.5 py-0.5">123456</code>
-            </p>
-          </div>
-
-          {/* Stat strip */}
-          <div className="mx-auto mt-20 grid max-w-5xl grid-cols-2 gap-4 md:grid-cols-4">
-            {[
-              { kpi: "5 → 1", label: "instituții unificate" },
-              { kpi: "4 sgt → 2 zile", label: "timp mediu înmatriculare" },
-              { kpi: "20+ ore", label: "economisite per cetățean" },
-              { kpi: "8 mil.", label: "proprietari de vehicule" },
-            ].map((s) => (
-              <div
-                key={s.kpi}
-                className="rounded-xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-sm"
-              >
-                <div className="text-2xl font-bold text-white">{s.kpi}</div>
-                <div className="mt-1 text-sm text-white/60">{s.label}</div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
 
       {/* Cum funcționează */}
-      <section id="cum-funcționează" className="bg-(--color-background) py-24">
+      <section id="cum-functioneaza" className="bg-(--color-background) py-24">
         <div className="container-page">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
               Trei surprize plăcute, într-un flux pe care îl știai dureros
             </h2>
             <p className="mt-4 text-(--color-muted-foreground)">
-              Construit cu Claude Vision și API-uri publice — nimic fictiv, totul demonstrabil.
+              Toate trei funcționează în demo, cu date de test, fără să-ți faci cont.
             </p>
           </div>
 
@@ -113,19 +96,19 @@ export default function Landing() {
                 icon: ScanText,
                 title: "OCR cu Claude Vision",
                 body:
-                  "Fotografiezi briefcul, kaufvertragul și CI-ul. În ~6 secunde ai 80% din câmpuri auto-completate și verificate încrucișat pe VIN.",
+                  "Fotografiezi briefcul, kaufvertragul și CI-ul. Claude Vision extrage câmpurile, le completează în dosar și verifică încrucișat VIN-ul între documente.",
               },
               {
-                icon: Workflow,
-                title: "Flux orchestrat end-to-end",
+                icon: ListChecks,
+                title: "Wizard ghidat, cu termenul de 90 de zile",
                 body:
-                  "Wizardul tău se sincronizează cu ANAF, RAR, DGITL și DGPCI prin webhook-uri n8n — primești notificări la fiecare pas.",
+                  "Alegi scenariul (mașină nouă, second-hand sau importată) și primești pașii în ordinea corectă. Pentru mașinile importate, termenul legal de 90 de zile rămâne mereu la vedere.",
               },
               {
-                icon: ShieldCheck,
-                title: "Ledger criptografic",
+                icon: Calculator,
+                title: "Calculator de costuri și impozit",
                 body:
-                  "Fiecare acțiune este înregistrată într-un lanț SHA-256. Funcționarii și cetățenii pot verifica integritatea cu un click.",
+                  "Vezi din start taxele de înmatriculare, plăcuțele, omologarea RAR și impozitul anual, calculat după art. 470 din Codul Fiscal.",
               },
             ].map(({ icon: Icon, title, body }) => (
               <div
@@ -143,8 +126,8 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Impact */}
-      <section id="impact" className="bg-white py-24">
+      {/* De ce */}
+      <section id="de-ce" className="bg-white py-24">
         <div className="container-page grid items-center gap-12 md:grid-cols-2">
           <div>
             <Badge variant="warning" className="mb-4">
@@ -152,18 +135,17 @@ export default function Landing() {
               Termen legal: 90 zile
             </Badge>
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-              Astăzi: 5 ghișee, 2–4 săptămâni, risc penal după 90 zile.
+              Astăzi: mai multe ghișee, aceleași acte cerute din nou și amendă dacă ratezi termenul.
             </h2>
             <p className="mt-4 leading-relaxed text-(--color-muted-foreground)">
-              AutoActe te ghidează cu un cronometru permanent, deadline-uri colorate și acțiuni concrete
-              la fiecare etapă. Niciun cetățean nu mai ratează un termen legal.
+              AutoActe îți arată la fiecare etapă ce ai de făcut și cât timp mai ai, cu un cronometru
+              permanent și termene marcate pe culori.
             </p>
             <ul className="mt-6 space-y-3 text-sm">
               {[
                 "Auto-completare CNP, VIN și capacitate cilindrică din fotografii.",
+                "Decodare VIN prin NHTSA: marca, modelul și anul, direct din seria de șasiu.",
                 "Calculator cost actualizat live, cu impozit anual conform art. 470 din Codul Fiscal.",
-                "Marketplace contextual: traduceri legalizate, transport, asistență RAR.",
-                "Portal funcționar cu inbox în timp real și aprobare semi-automată.",
               ].map((line) => (
                 <li key={line} className="flex items-start gap-2">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
@@ -175,38 +157,86 @@ export default function Landing() {
 
           <div className="relative rounded-3xl border border-(--color-border) bg-(--color-background) p-6 shadow-sm">
             <div className="absolute -top-3 left-6">
-              <Badge variant="default">Live demo</Badge>
+              <Badge variant="default">Previzualizare</Badge>
             </div>
             <DashboardPreview />
           </div>
         </div>
       </section>
 
-      {/* Ecosistem */}
-      <section id="ecosistem" className="bg-(--color-background) py-24">
+      {/* Ce urmează */}
+      <section id="ce-urmeaza" className="bg-(--color-background) py-24">
         <div className="container-page">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-              Un ecosistem deschis, gata de integrat
-            </h2>
+            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Ce urmează</h2>
             <p className="mt-4 text-(--color-muted-foreground)">
-              API public REST, webhook-uri CloudEvents 1.0, n8n-ready. Construim împreună cu instituțiile —
-              fără ele nu există Digital Romania.
+              Wizardul modelează pașii a cinci instituții. Nu există încă integrări cu sistemele lor:
+              pașii sunt simulați cu date demo.
             </p>
           </div>
-          <div className="mt-12 grid gap-4 md:grid-cols-5">
+
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 md:grid-cols-5">
             {[
               { label: "DGPCI", desc: "Înmatriculare + plăcuțe" },
               { label: "RAR", desc: "Omologare + CIV" },
               { label: "ANAF", desc: "Certificat TVA" },
               { label: "DGITL", desc: "Impozit anual" },
-              { label: "Asigurători", desc: "RCA real-time" },
+              { label: "Asigurători", desc: "Poliță RCA" },
             ].map((item) => (
               <div key={item.label} className="rounded-xl border border-(--color-border) bg-white p-4 text-center">
                 <div className="font-semibold tracking-tight">{item.label}</div>
                 <div className="text-xs text-(--color-muted-foreground)">{item.desc}</div>
               </div>
             ))}
+          </div>
+
+          <div className="mx-auto mt-16 max-w-3xl">
+            <h3 className="text-center text-lg font-semibold">Planificat, încă neconstruit</h3>
+            <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+              {[
+                {
+                  icon: Inbox,
+                  title: "Portal funcționar",
+                  body: "Inbox pentru DGPCI și RAR, cu aprobare semi-automată a dosarelor.",
+                },
+                {
+                  icon: Building2,
+                  title: "Portal dealer",
+                  body: "Înmatriculări în lot pentru dealeri auto.",
+                },
+                {
+                  icon: ShoppingBag,
+                  title: "Marketplace de servicii",
+                  body: "Traduceri legalizate, transport și asistență la RAR, oferite în contextul dosarului.",
+                },
+                {
+                  icon: ShieldCheck,
+                  title: "Pagină de verificare a ledger-ului",
+                  body: "Lanțul de audit SHA-256 există deja în schema bazei de date; lipsește pagina care îl verifică.",
+                },
+                {
+                  icon: Webhook,
+                  title: "API public + webhook-uri",
+                  body: "REST /api/v1 și livrarea evenimentelor CloudEvents prin webhook-uri, de exemplu către n8n.",
+                },
+              ].map(({ icon: Icon, title, body }) => (
+                <li
+                  key={title}
+                  className="flex items-start gap-3 rounded-xl border border-dashed border-(--color-border) bg-white p-4"
+                >
+                  <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-(--color-secondary) text-(--color-muted-foreground)">
+                    <Icon className="h-4 w-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-sm font-semibold">{title}</span>
+                      <Badge variant="muted" size="sm">Planificat</Badge>
+                    </div>
+                    <p className="mt-1 text-xs leading-relaxed text-(--color-muted-foreground)">{body}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
@@ -215,7 +245,15 @@ export default function Landing() {
         <div className="container-page flex flex-col items-center justify-between gap-4 md:flex-row">
           <Logo />
           <p className="text-xs text-(--color-muted-foreground)">
-            Construit pentru Cluj Hackathon 2026 · MIT License · ROeID-ready
+            Proiect personal · Mihai Stefanita ·{" "}
+            <a
+              href={REPO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-(--color-primary) hover:underline"
+            >
+              Cod sursă pe GitHub
+            </a>
           </p>
         </div>
       </footer>

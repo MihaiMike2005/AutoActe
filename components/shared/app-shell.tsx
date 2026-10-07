@@ -7,14 +7,16 @@ import { Badge } from "@/components/ui/badge";
 import type { Session } from "@/lib/auth/session";
 import { getNotificationsForUser } from "@/lib/mock/demo-data";
 
-type NavItem = { href: string; label: string; icon: React.ElementType };
+type NavItem = { href: string; label: string; icon: React.ElementType; planned?: boolean };
 
 const CITIZEN_NAV: NavItem[] = [
   { href: "/dashboard", label: "Acasă", icon: Home },
   { href: "/cases/new", label: "Dosar nou", icon: LayoutGrid },
-  { href: "/documents", label: "Documente", icon: FileText },
-  { href: "/marketplace", label: "Marketplace", icon: ShoppingBag },
+  { href: "/documents", label: "Documente", icon: FileText, planned: true },
+  { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, planned: true },
 ];
+
+const PROFILE_NAV_ITEM: NavItem = { href: "/profile", label: "Profil", icon: User, planned: true };
 
 const SERVANT_NAV: NavItem[] = [
   { href: "/inbox", label: "Inbox", icon: Home },
@@ -54,6 +56,20 @@ export function AppShell({
         <nav className="flex flex-1 flex-col gap-1 px-3 py-4">
           {nav.map((item) => {
             const Icon = item.icon;
+            if (item.planned) {
+              return (
+                <div
+                  key={item.href}
+                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-(--color-muted-foreground)"
+                >
+                  <Icon className="h-4 w-4" />
+                  {item.label}
+                  <Badge variant="muted" size="sm" className="ml-auto">
+                    Planificat
+                  </Badge>
+                </div>
+              );
+            }
             return (
               <Link
                 key={item.href}
@@ -66,15 +82,17 @@ export function AppShell({
             );
           })}
         </nav>
-        <Link
-          href="/ledger"
-          className="mx-3 mb-3 rounded-lg border border-(--color-border) bg-(--color-background) p-3 transition-colors hover:bg-(--color-secondary)"
-        >
-          <div className="text-xs font-semibold uppercase tracking-wide text-(--color-muted-foreground)">
-            Audit ledger
+        <div className="mx-3 mb-3 rounded-lg border border-dashed border-(--color-border) bg-(--color-background) p-3">
+          <div className="flex items-center justify-between gap-2">
+            <div className="text-xs font-semibold uppercase tracking-wide text-(--color-muted-foreground)">
+              Audit ledger
+            </div>
+            <Badge variant="muted" size="sm">
+              Planificat
+            </Badge>
           </div>
-          <div className="mt-1 text-sm">Verifică integritatea criptografică ›</div>
-        </Link>
+          <div className="mt-1 text-sm">Verificarea integrității criptografice</div>
+        </div>
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
@@ -110,26 +128,33 @@ export function AppShell({
         <main className="flex-1 px-4 py-8 md:px-8 md:py-10">{children}</main>
 
         <nav className="sticky bottom-0 z-10 flex items-stretch justify-around border-t border-(--color-border) bg-white/95 px-1 py-1 backdrop-blur md:hidden">
-          {nav.map((item) => {
+          {[...nav, PROFILE_NAV_ITEM].map((item) => {
             const Icon = item.icon;
+            if (item.planned) {
+              return (
+                <div
+                  key={item.href}
+                  className="flex flex-col items-center gap-0.5 rounded-lg px-1.5 py-2 text-[11px] font-medium text-(--color-muted-foreground)"
+                >
+                  <Icon className="h-5 w-5" />
+                  {item.label}
+                  <Badge variant="muted" size="sm">
+                    Planificat
+                  </Badge>
+                </div>
+              );
+            }
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex flex-col items-center gap-0.5 rounded-lg px-3 py-2 text-[11px] font-medium text-(--color-muted-foreground) hover:text-(--color-foreground)"
+                className="flex flex-col items-center gap-0.5 rounded-lg px-1.5 py-2 text-[11px] font-medium text-(--color-muted-foreground) hover:text-(--color-foreground)"
               >
                 <Icon className="h-5 w-5" />
                 {item.label}
               </Link>
             );
           })}
-          <Link
-            href="/profile"
-            className="flex flex-col items-center gap-0.5 rounded-lg px-3 py-2 text-[11px] font-medium text-(--color-muted-foreground) hover:text-(--color-foreground)"
-          >
-            <User className="h-5 w-5" />
-            Profil
-          </Link>
         </nav>
       </div>
     </div>

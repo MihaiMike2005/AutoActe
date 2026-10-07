@@ -1,12 +1,12 @@
 "use client";
 
 import { startTransition } from "react";
-import Link from "next/link";
 import { unstable_rethrow } from "next/navigation";
 import { FileText, LogOut, User } from "lucide-react";
 import { toast } from "sonner";
 import { logoutAction } from "@/lib/auth/actions";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -42,15 +42,23 @@ export function UserMenu({
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>{email}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href="/profile" className="flex items-center gap-2">
-            <User className="h-4 w-4" /> Profil
-          </Link>
+        <DropdownMenuItem
+          disabled
+          className="text-(--color-muted-foreground) data-[disabled]:opacity-100"
+        >
+          <User className="h-4 w-4" /> Profil
+          <Badge variant="muted" size="sm" className="ml-auto">
+            Planificat
+          </Badge>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/ledger" className="flex items-center gap-2">
-            <FileText className="h-4 w-4" /> Audit ledger
-          </Link>
+        <DropdownMenuItem
+          disabled
+          className="text-(--color-muted-foreground) data-[disabled]:opacity-100"
+        >
+          <FileText className="h-4 w-4" /> Audit ledger
+          <Badge variant="muted" size="sm" className="ml-auto">
+            Planificat
+          </Badge>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         {/* A <form> inside the item is unmounted when the menu closes on select, before the browser submits it. */}

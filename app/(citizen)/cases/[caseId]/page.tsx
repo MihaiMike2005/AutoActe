@@ -56,8 +56,8 @@ export default async function CasePage({
 
       {c.scenario.startsWith("imported") ? <DeadlineBanner deadline={c.legal_deadline} /> : null}
 
-      <div className="grid gap-6 lg:grid-cols-[260px_1fr_320px]">
-        <aside className="space-y-3 lg:max-h-[calc(100vh-9rem)] lg:overflow-y-auto lg:sticky lg:top-20">
+      <div className="grid gap-6 xl:grid-cols-[260px_1fr_320px]">
+        <aside className="space-y-3 xl:max-h-[calc(100vh-9rem)] xl:overflow-y-auto xl:sticky xl:top-20">
           <Card>
             <CardContent className="p-4">
               <div className="mb-3 flex items-center justify-between text-xs text-(--color-muted-foreground)">
@@ -117,7 +117,7 @@ export default async function CasePage({
           <StepRenderer case={c} vehicle={vehicle} />
         </section>
 
-        <aside className="space-y-3 lg:max-h-[calc(100vh-9rem)] lg:overflow-y-auto">
+        <aside className="space-y-3 xl:max-h-[calc(100vh-9rem)] xl:overflow-y-auto">
           <CostCalculator
             scenario={c.scenario}
             engineCapacityCc={vehicle.engine_capacity_cc}

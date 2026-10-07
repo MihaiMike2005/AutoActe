@@ -13,14 +13,14 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "AutoActe — Înmatriculează inteligent",
   description:
-    "Platforma unică pentru înmatricularea vehiculelor în România. Unifică DGPCI, RAR, ANAF, DGITL și asigurătorii într-un singur flux.",
+    "Prototip pentru înmatricularea vehiculelor în România: modelează pașii de la DGPCI, RAR, ANAF, DGITL și asigurători într-un singur flux digital.",
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
   ),
   openGraph: {
     title: "AutoActe — Digital Romania",
     description:
-      "Înmatriculare auto end-to-end, cu OCR, semnătură digitală și transparență blockchain-grade.",
+      "Înmatricularea auto într-un singur flux digital, cu OCR Claude Vision, termene legale și calculator de costuri.",
     type: "website",
     locale: "ro_RO",
   },

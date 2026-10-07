@@ -1,6 +1,6 @@
 # AutoActe — Project Context for Claude Code
 
-Production-grade web app digitalizing the Romanian vehicle registration process. Built for Cluj Hackathon 2026 ("Digital Romania" theme). Unifies DGPCI, RAR, ANAF, DGITL and insurers into one citizen-first flow.
+Personal portfolio project: a prototype web app digitalizing the Romanian vehicle registration process. Unifies DGPCI, RAR, ANAF, DGITL and insurers into one citizen-first flow.
 
 ## Stack
 
