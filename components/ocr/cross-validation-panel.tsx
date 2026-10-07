@@ -20,7 +20,7 @@ export function CrossValidationPanel({ checks }: { checks: CrossCheck[] }) {
     <section aria-labelledby="cross-validation-title" className="space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h3 id="cross-validation-title" className="flex items-center gap-2 text-base font-semibold">
-          <ShieldCheck className="h-4 w-4 text-[--color-primary]" aria-hidden />
+          <ShieldCheck className="h-4 w-4 text-(--color-primary)" aria-hidden />
           Verificare încrucișată
         </h3>
         <span
@@ -54,7 +54,7 @@ export function CrossValidationPanel({ checks }: { checks: CrossCheck[] }) {
                   <span className="sr-only">{style.sr}: </span>
                   {check.title}
                 </div>
-                <p className="break-words text-xs text-[--color-muted-foreground]">{check.detail}</p>
+                <p className="break-words text-xs text-(--color-muted-foreground)">{check.detail}</p>
               </div>
             </motion.li>
           );

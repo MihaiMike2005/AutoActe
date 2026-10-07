@@ -34,7 +34,7 @@ export default async function CasePage({
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="space-y-1">
-          <div className="flex items-center gap-2 text-sm text-[--color-muted-foreground]">
+          <div className="flex items-center gap-2 text-sm text-(--color-muted-foreground)">
             <Button asChild variant="ghost" size="sm" className="-ml-2 h-7 px-2">
               <Link href="/dashboard">
                 <ArrowLeft className="h-4 w-4" /> Dashboard
@@ -45,8 +45,8 @@ export default async function CasePage({
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <h1 className="text-2xl font-bold tracking-tight">
-              {vehicle.make} {vehicle.model} <span className="text-[--color-muted-foreground]">·</span>{" "}
-              <span className="font-mono text-base font-medium text-[--color-muted-foreground]">{vehicle.vin}</span>
+              {vehicle.make} {vehicle.model} <span className="text-(--color-muted-foreground)">·</span>{" "}
+              <span className="font-mono text-base font-medium text-(--color-muted-foreground)">{vehicle.vin}</span>
             </h1>
             <CaseStatusBadge status={c.status} />
             <DeadlinePill deadline={c.legal_deadline} />
@@ -60,7 +60,7 @@ export default async function CasePage({
         <aside className="space-y-3 lg:max-h-[calc(100vh-9rem)] lg:overflow-y-auto lg:sticky lg:top-20">
           <Card>
             <CardContent className="p-4">
-              <div className="mb-3 flex items-center justify-between text-xs text-[--color-muted-foreground]">
+              <div className="mb-3 flex items-center justify-between text-xs text-(--color-muted-foreground)">
                 <span>Progres total</span>
                 <span>{pct}%</span>
               </div>
@@ -75,9 +75,9 @@ export default async function CasePage({
           <Card>
             <CardContent className="space-y-2 p-4 text-xs">
               <div className="flex items-center gap-2 font-semibold">
-                <Car className="h-4 w-4 text-[--color-muted-foreground]" /> Vehicul
+                <Car className="h-4 w-4 text-(--color-muted-foreground)" /> Vehicul
               </div>
-              <dl className="space-y-1 text-[--color-muted-foreground]">
+              <dl className="space-y-1 text-(--color-muted-foreground)">
                 <div className="flex justify-between gap-2">
                   <dt>VIN</dt>
                   <dd className="font-mono text-[10px]">{vehicle.vin}</dd>

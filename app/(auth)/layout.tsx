@@ -32,7 +32,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <div className="flex flex-col">
         <div className="flex items-center justify-between p-6 md:hidden">
           <Logo />
-          <Link href="/" className="text-sm text-[--color-muted-foreground] hover:underline">
+          <Link href="/" className="text-sm text-(--color-muted-foreground) hover:underline">
             Înapoi acasă
           </Link>
         </div>

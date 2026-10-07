@@ -95,7 +95,7 @@ export function VinLookup({
             Decodează
           </Button>
         </div>
-        <p className="text-xs text-[--color-muted-foreground]">
+        <p className="text-xs text-(--color-muted-foreground)">
           Datele provin live de la <strong>NHTSA vPIC</strong> (Statele Unite — singura bază de date publică care
           acoperă toate VIN-urile internaționale).
         </p>

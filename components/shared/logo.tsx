@@ -20,7 +20,7 @@ export function Logo({
       <span
         className={cn(
           "inline-grid h-8 w-8 place-items-center rounded-lg text-xs font-bold",
-          inverted ? "bg-white text-[--color-primary]" : "bg-[--color-primary] text-white",
+          inverted ? "bg-white text-(--color-primary)" : "bg-(--color-primary) text-white",
         )}
         aria-hidden
       >
@@ -31,7 +31,7 @@ export function Logo({
         <span
           className={cn(
             "text-[10px] uppercase tracking-[0.18em]",
-            inverted ? "text-white/70" : "text-[--color-muted-foreground]",
+            inverted ? "text-white/70" : "text-(--color-muted-foreground)",
           )}
         >
           Digital Romania

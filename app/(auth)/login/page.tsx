@@ -7,7 +7,7 @@ export default function LoginPage() {
     <div className="space-y-8">
       <div className="space-y-2">
         <h1 className="text-2xl font-bold tracking-tight">Bun venit înapoi</h1>
-        <p className="text-sm text-[--color-muted-foreground]">
+        <p className="text-sm text-(--color-muted-foreground)">
           Conectează-te pentru a-ți relua dosarele de înmatriculare. Următorul pas este o validare 2FA.
         </p>
       </div>

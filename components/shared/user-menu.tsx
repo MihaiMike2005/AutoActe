@@ -35,7 +35,7 @@ export function UserMenu({
           </Avatar>
           <div className="hidden text-left md:block">
             <div className="text-sm font-semibold leading-tight">{fullName}</div>
-            <div className="text-xs text-[--color-muted-foreground]">{email}</div>
+            <div className="text-xs text-(--color-muted-foreground)">{email}</div>
           </div>
         </Button>
       </DropdownMenuTrigger>

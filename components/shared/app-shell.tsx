@@ -47,7 +47,7 @@ export function AppShell({
 
   return (
     <div className="flex min-h-screen">
-      <aside className="hidden w-64 shrink-0 flex-col border-r border-[--color-border] bg-white md:flex">
+      <aside className="hidden w-64 shrink-0 flex-col border-r border-(--color-border) bg-white md:flex">
         <div className="flex h-16 items-center px-6">
           <Logo />
         </div>
@@ -58,9 +58,9 @@ export function AppShell({
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-[--color-foreground] hover:bg-[--color-secondary] transition-colors"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-(--color-foreground) hover:bg-(--color-secondary) transition-colors"
               >
-                <Icon className="h-4 w-4 text-[--color-muted-foreground]" />
+                <Icon className="h-4 w-4 text-(--color-muted-foreground)" />
                 {item.label}
               </Link>
             );
@@ -68,9 +68,9 @@ export function AppShell({
         </nav>
         <Link
           href="/ledger"
-          className="mx-3 mb-3 rounded-lg border border-[--color-border] bg-[--color-background] p-3 transition-colors hover:bg-[--color-secondary]"
+          className="mx-3 mb-3 rounded-lg border border-(--color-border) bg-(--color-background) p-3 transition-colors hover:bg-(--color-secondary)"
         >
-          <div className="text-xs font-semibold uppercase tracking-wide text-[--color-muted-foreground]">
+          <div className="text-xs font-semibold uppercase tracking-wide text-(--color-muted-foreground)">
             Audit ledger
           </div>
           <div className="mt-1 text-sm">Verifică integritatea criptografică ›</div>
@@ -78,11 +78,11 @@ export function AppShell({
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[--color-border] bg-white/85 px-4 backdrop-blur md:px-6">
+        <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-(--color-border) bg-white/85 px-4 backdrop-blur md:px-6">
           <div className="flex items-center gap-3 md:hidden">
             <Logo />
           </div>
-          <div className="hidden text-sm text-[--color-muted-foreground] md:block">
+          <div className="hidden text-sm text-(--color-muted-foreground) md:block">
             {variant === "citizen" && "Portal cetățean"}
             {variant === "servant" && "Portal funcționar"}
             {variant === "dealer" && "Portal dealer B2B"}
@@ -109,14 +109,14 @@ export function AppShell({
 
         <main className="flex-1 px-4 py-8 md:px-8 md:py-10">{children}</main>
 
-        <nav className="sticky bottom-0 z-10 flex items-stretch justify-around border-t border-[--color-border] bg-white/95 px-1 py-1 backdrop-blur md:hidden">
+        <nav className="sticky bottom-0 z-10 flex items-stretch justify-around border-t border-(--color-border) bg-white/95 px-1 py-1 backdrop-blur md:hidden">
           {nav.map((item) => {
             const Icon = item.icon;
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex flex-col items-center gap-0.5 rounded-lg px-3 py-2 text-[11px] font-medium text-[--color-muted-foreground] hover:text-[--color-foreground]"
+                className="flex flex-col items-center gap-0.5 rounded-lg px-3 py-2 text-[11px] font-medium text-(--color-muted-foreground) hover:text-(--color-foreground)"
               >
                 <Icon className="h-5 w-5" />
                 {item.label}
@@ -125,7 +125,7 @@ export function AppShell({
           })}
           <Link
             href="/profile"
-            className="flex flex-col items-center gap-0.5 rounded-lg px-3 py-2 text-[11px] font-medium text-[--color-muted-foreground] hover:text-[--color-foreground]"
+            className="flex flex-col items-center gap-0.5 rounded-lg px-3 py-2 text-[11px] font-medium text-(--color-muted-foreground) hover:text-(--color-foreground)"
           >
             <User className="h-5 w-5" />
             Profil

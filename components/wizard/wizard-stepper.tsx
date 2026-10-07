@@ -23,7 +23,7 @@ export function WizardStepper({
             <div
               className={cn(
                 "relative flex items-start gap-3 rounded-lg px-3 py-2.5 transition-colors",
-                active && "bg-[--color-primary]/10",
+                active && "bg-(--color-primary)/10",
               )}
             >
               <div className="relative flex flex-col items-center">
@@ -33,7 +33,7 @@ export function WizardStepper({
                     done
                       ? "border-emerald-500 bg-emerald-500 text-white"
                       : active
-                        ? "border-[--color-primary] bg-white text-[--color-primary]"
+                        ? "border-(--color-primary) bg-white text-(--color-primary)"
                         : "border-slate-200 bg-white text-slate-400",
                   )}
                 >
@@ -52,7 +52,7 @@ export function WizardStepper({
                 <div
                   className={cn(
                     "flex items-center gap-1.5 text-sm font-medium",
-                    active ? "text-[--color-foreground]" : "text-[--color-foreground]/80",
+                    active ? "text-(--color-foreground)" : "text-(--color-foreground)/80",
                   )}
                 >
                   {meta.title}
@@ -60,13 +60,13 @@ export function WizardStepper({
                     <Lock className="h-3 w-3 text-amber-600" />
                   ) : null}
                 </div>
-                <div className="text-xs text-[--color-muted-foreground]">
+                <div className="text-xs text-(--color-muted-foreground)">
                   {meta.institution ?? (active ? "În progres" : "")}
                 </div>
               </div>
               {active ? (
                 <Circle
-                  className="absolute right-3 top-3 h-2 w-2 fill-[--color-primary] text-[--color-primary]"
+                  className="absolute right-3 top-3 h-2 w-2 fill-(--color-primary) text-(--color-primary)"
                   aria-hidden
                 />
               ) : null}

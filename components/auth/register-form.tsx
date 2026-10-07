@@ -52,9 +52,9 @@ export function RegisterForm() {
         {pending ? "Se creează contul…" : "Creează cont"}
       </Button>
 
-      <p className="text-center text-sm text-[--color-muted-foreground]">
+      <p className="text-center text-sm text-(--color-muted-foreground)">
         Ai deja cont?{" "}
-        <Link href="/login" className="font-medium text-[--color-primary] hover:underline">
+        <Link href="/login" className="font-medium text-(--color-primary) hover:underline">
           Autentifică-te
         </Link>
       </p>

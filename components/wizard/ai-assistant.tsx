@@ -49,7 +49,7 @@ export function AiAssistant() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          className="fixed bottom-20 right-4 h-14 w-14 rounded-full p-0 shadow-2xl shadow-[--color-primary]/40 md:bottom-6 md:right-6"
+          className="fixed bottom-20 right-4 h-14 w-14 rounded-full p-0 shadow-2xl shadow-(--color-primary)/40 md:bottom-6 md:right-6"
           aria-label="Întreabă AutoActe"
         >
           <Bot className="h-6 w-6" />
@@ -58,20 +58,20 @@ export function AiAssistant() {
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-[--color-accent]" /> Întreabă AutoActe
+            <Sparkles className="h-4 w-4 text-(--color-accent)" /> Întreabă AutoActe
           </DialogTitle>
           <DialogDescription>
             Asistentul AI cunoaște dosarul tău, instituțiile și termenii legali.
           </DialogDescription>
         </DialogHeader>
-        <div className="max-h-72 space-y-2 overflow-y-auto rounded-lg border border-[--color-border] bg-[--color-secondary] p-3 text-sm">
+        <div className="max-h-72 space-y-2 overflow-y-auto rounded-lg border border-(--color-border) bg-(--color-secondary) p-3 text-sm">
           {messages.map((m, i) => (
             <div
               key={i}
               className={
                 m.role === "assistant"
                   ? "rounded-lg bg-white p-2.5"
-                  : "rounded-lg bg-[--color-primary] text-white p-2.5 ml-8"
+                  : "rounded-lg bg-(--color-primary) text-white p-2.5 ml-8"
               }
             >
               {m.text}
@@ -84,7 +84,7 @@ export function AiAssistant() {
               key={q}
               type="button"
               onClick={() => send(q)}
-              className="rounded-full border border-[--color-border] bg-white px-2.5 py-1 text-xs hover:bg-[--color-secondary]"
+              className="rounded-full border border-(--color-border) bg-white px-2.5 py-1 text-xs hover:bg-(--color-secondary)"
             >
               {q}
             </button>

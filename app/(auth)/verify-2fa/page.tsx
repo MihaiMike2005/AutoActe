@@ -16,7 +16,7 @@ export default async function Verify2FAPage() {
     <div className="space-y-8">
       <div className="space-y-2">
         <h1 className="text-2xl font-bold tracking-tight">Validare în 2 pași</h1>
-        <p className="text-sm text-[--color-muted-foreground]">
+        <p className="text-sm text-(--color-muted-foreground)">
           Am trimis un cod către <strong>{pending.email}</strong>. Introdu-l mai jos pentru a finaliza autentificarea.
           Codul expiră în 5 minute.
         </p>

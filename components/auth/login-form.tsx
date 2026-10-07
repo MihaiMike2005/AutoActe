@@ -28,7 +28,7 @@ export function LoginForm({ initialEmail }: { initialEmail?: string }) {
       <div className="space-y-1.5">
         <div className="flex items-center justify-between">
           <Label htmlFor="password">Parolă</Label>
-          <Link href="#" className="text-xs text-[--color-primary] hover:underline">
+          <Link href="#" className="text-xs text-(--color-primary) hover:underline">
             Ai uitat parola?
           </Link>
         </div>
@@ -53,9 +53,9 @@ export function LoginForm({ initialEmail }: { initialEmail?: string }) {
         {pending ? "Se autentifică…" : "Continuă spre 2FA"}
       </Button>
 
-      <p className="text-center text-sm text-[--color-muted-foreground]">
+      <p className="text-center text-sm text-(--color-muted-foreground)">
         Nu ai cont încă?{" "}
-        <Link href="/register" className="font-medium text-[--color-primary] hover:underline">
+        <Link href="/register" className="font-medium text-(--color-primary) hover:underline">
           Înregistrează-te în 30 sec.
         </Link>
       </p>

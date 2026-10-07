@@ -18,7 +18,7 @@ export const DropdownMenuContent = React.forwardRef<
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        "z-50 min-w-[12rem] overflow-hidden rounded-lg border border-[--color-border] bg-white p-1 shadow-lg",
+        "z-50 min-w-[12rem] overflow-hidden rounded-lg border border-(--color-border) bg-white p-1 shadow-lg",
         "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
         className,
       )}
@@ -36,7 +36,7 @@ export const DropdownMenuItem = React.forwardRef<
     ref={ref}
     className={cn(
       "relative flex cursor-pointer select-none items-center gap-2 rounded-md px-2 py-1.5 text-sm outline-none transition-colors",
-      "focus:bg-[--color-secondary] focus:text-[--color-foreground]",
+      "focus:bg-(--color-secondary) focus:text-(--color-foreground)",
       "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       inset && "pl-8",
       className,
@@ -52,7 +52,7 @@ export const DropdownMenuSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Separator
     ref={ref}
-    className={cn("my-1 h-px bg-[--color-border]", className)}
+    className={cn("my-1 h-px bg-(--color-border)", className)}
     {...props}
   />
 ));
@@ -64,7 +64,7 @@ export const DropdownMenuLabel = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Label
     ref={ref}
-    className={cn("px-2 py-1.5 text-xs font-semibold uppercase tracking-wide text-[--color-muted-foreground]", className)}
+    className={cn("px-2 py-1.5 text-xs font-semibold uppercase tracking-wide text-(--color-muted-foreground)", className)}
     {...props}
   />
 ));
@@ -79,7 +79,7 @@ export const DropdownMenuCheckboxItem = React.forwardRef<
     checked={checked}
     className={cn(
       "relative flex cursor-pointer select-none items-center gap-2 rounded-md py-1.5 pl-8 pr-2 text-sm outline-none",
-      "focus:bg-[--color-secondary]",
+      "focus:bg-(--color-secondary)",
       className,
     )}
     {...props}

@@ -54,7 +54,7 @@ function toInputValue(value: FieldValue | undefined) {
 }
 
 function toneFor(confidence: number | undefined) {
-  if (confidence === undefined) return "border-[--color-border]";
+  if (confidence === undefined) return "border-(--color-border)";
   const tier = tierFor(confidence);
   if (tier === "high") return "border-emerald-200 bg-emerald-50/40";
   if (tier === "medium") return "border-amber-200 bg-amber-50/40";
@@ -279,7 +279,7 @@ function SlotHeader({ slot, saved, confidence }: { slot: DocSlot; saved: boolean
         <div
           className={cn(
             "grid h-10 w-10 shrink-0 place-items-center rounded-lg",
-            saved ? "bg-emerald-500/15 text-emerald-700" : "bg-[--color-primary]/10 text-[--color-primary]",
+            saved ? "bg-emerald-500/15 text-emerald-700" : "bg-(--color-primary)/10 text-(--color-primary)",
           )}
         >
           {saved ? <FileCheck2 className="h-5 w-5" aria-hidden /> : <FileText className="h-5 w-5" aria-hidden />}
@@ -289,7 +289,7 @@ function SlotHeader({ slot, saved, confidence }: { slot: DocSlot; saved: boolean
             {slot.label}
             {slot.required ? <Badge variant="muted" size="sm">Obligatoriu</Badge> : <Badge variant="outline" size="sm">Opțional</Badge>}
           </div>
-          <p className="text-xs text-[--color-muted-foreground]">{slot.hint}</p>
+          <p className="text-xs text-(--color-muted-foreground)">{slot.hint}</p>
         </div>
       </div>
       {confidence !== undefined ? <ConfidenceBadge confidence={confidence} /> : null}
@@ -311,13 +311,13 @@ function SavedDocument({ document, fields }: { document: DocumentRecord; fields:
           width={80}
           height={56}
           unoptimized
-          className="h-14 w-20 shrink-0 rounded-md border border-[--color-border] object-cover"
+          className="h-14 w-20 shrink-0 rounded-md border border-(--color-border) object-cover"
         />
       ) : null}
       <dl className="min-w-0 flex-1 space-y-1 rounded-md bg-white/70 p-2 text-xs">
         {shown.map((f) => (
           <div key={f.key} className="flex justify-between gap-3">
-            <dt className="shrink-0 text-[--color-muted-foreground]">{f.label}</dt>
+            <dt className="shrink-0 text-(--color-muted-foreground)">{f.label}</dt>
             <dd className={cn("truncate text-right font-medium", (f.kind === "vin" || f.kind === "cnp") && "font-mono")}>
               {f.kind === "boolean" ? (data[f.key] ? "Da" : "Nu") : String(data[f.key])}
             </dd>
@@ -405,7 +405,7 @@ function ReviewPanel({
       <div className="flex flex-wrap items-center gap-2">
         {preview?.url ? (
           // eslint-disable-next-line @next/next/no-img-element -- local object URL preview
-          <img src={preview.url} alt="" className="h-10 w-14 rounded border border-[--color-border] object-cover" />
+          <img src={preview.url} alt="" className="h-10 w-14 rounded border border-(--color-border) object-cover" />
         ) : null}
         <span className="flex items-center gap-1.5 text-sm font-semibold text-violet-700">
           <Sparkles className="h-4 w-4" aria-hidden /> Date extrase automat
@@ -457,7 +457,7 @@ function ReviewPanel({
                   id={id}
                   value={values[f.key] ?? ""}
                   onChange={(e) => onChange(f.key, e.target.value)}
-                  className="flex h-10 w-full rounded-lg border border-[--color-input] bg-white px-3 text-sm"
+                  className="flex h-10 w-full rounded-lg border border-(--color-input) bg-white px-3 text-sm"
                 >
                   <option value="">Necunoscut</option>
                   <option value="true">Da</option>

@@ -12,7 +12,7 @@ const LABELS: Record<keyof typeof integrationStatus, string> = {
 export function IntegrationStrip() {
   return (
     <div className="flex flex-wrap items-center gap-2 text-xs">
-      <span className="text-[--color-muted-foreground]">Integrări:</span>
+      <span className="text-(--color-muted-foreground)">Integrări:</span>
       {(Object.keys(LABELS) as Array<keyof typeof integrationStatus>).map((k) => {
         const on = integrationStatus[k];
         return (

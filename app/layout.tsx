@@ -33,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ro" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full bg-[--color-background] text-[--color-foreground]">
+      <body className="min-h-full bg-(--color-background) text-(--color-foreground)">
         <Providers>
           {children}
           <Toaster position="top-right" richColors closeButton theme="light" />

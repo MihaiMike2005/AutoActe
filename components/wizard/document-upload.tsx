@@ -34,7 +34,7 @@ export function DocumentUploadStep({
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h3 className="text-base font-semibold">Documente necesare</h3>
-          <p className="text-sm text-[--color-muted-foreground]">
+          <p className="text-sm text-(--color-muted-foreground)">
             Fotografiază fiecare document. Claude Vision extrage datele, iar tu doar le confirmi.
           </p>
         </div>
@@ -61,7 +61,7 @@ export function DocumentUploadStep({
 
       {documents.length >= 2 ? <CrossValidationPanel checks={status.checks} /> : null}
 
-      <div className="rounded-xl border border-[--color-border] bg-[--color-secondary] p-4">
+      <div className="rounded-xl border border-(--color-border) bg-(--color-secondary) p-4">
         {status.ready ? (
           <form action={advanceStepAction} className="flex flex-wrap items-center justify-between gap-3">
             <input type="hidden" name="case_id" value={c.id} />
@@ -81,9 +81,9 @@ export function DocumentUploadStep({
                   {r.done ? (
                     <CheckCircle2 className="h-4 w-4 text-emerald-600" aria-hidden />
                   ) : (
-                    <Circle className="h-4 w-4 text-[--color-muted-foreground]" aria-hidden />
+                    <Circle className="h-4 w-4 text-(--color-muted-foreground)" aria-hidden />
                   )}
-                  <span className={r.done ? "text-[--color-muted-foreground] line-through" : undefined}>
+                  <span className={r.done ? "text-(--color-muted-foreground) line-through" : undefined}>
                     <span className="sr-only">{r.done ? "Gata: " : "De făcut: "}</span>
                     {r.label}
                   </span>

@@ -44,7 +44,7 @@ export function StepRenderer({
           {meta.institution ? <Badge variant="outline">{meta.institution}</Badge> : null}
         </div>
         <h2 className="text-2xl font-bold tracking-tight">{meta.title}</h2>
-        <p className="text-[--color-muted-foreground]">{meta.subtitle}</p>
+        <p className="text-(--color-muted-foreground)">{meta.subtitle}</p>
       </div>
 
       {c.current_step === "documents_upload" ? (
@@ -149,19 +149,19 @@ function InstitutionStep({
     <Card>
       <CardContent className="space-y-4 p-6">
         <div className="flex items-start gap-3">
-          <div className="grid h-10 w-10 place-items-center rounded-lg bg-[--color-primary]/10 text-[--color-primary]">
+          <div className="grid h-10 w-10 place-items-center rounded-lg bg-(--color-primary)/10 text-(--color-primary)">
             <Icon className="h-5 w-5" />
           </div>
           <div>
             <h3 className="font-semibold">{title}</h3>
-            <p className="text-sm text-[--color-muted-foreground]">{intro}</p>
+            <p className="text-sm text-(--color-muted-foreground)">{intro}</p>
           </div>
         </div>
         {org ? (
-          <div className="grid gap-2 rounded-lg border border-[--color-border] bg-[--color-secondary] p-3 text-sm">
+          <div className="grid gap-2 rounded-lg border border-(--color-border) bg-(--color-secondary) p-3 text-sm">
             <div className="font-semibold">{org.name}</div>
-            <div className="text-[--color-muted-foreground]">{org.address}</div>
-            <div className="flex gap-3 text-xs text-[--color-muted-foreground]">
+            <div className="text-(--color-muted-foreground)">{org.address}</div>
+            <div className="flex gap-3 text-xs text-(--color-muted-foreground)">
               {org.contact_phone ? <span>📞 {org.contact_phone}</span> : null}
               {org.working_hours?.weekdays ? <span>🕘 {org.working_hours.weekdays}</span> : null}
             </div>
@@ -184,7 +184,7 @@ function RcaStep({ caseId, vehicle }: { caseId: string; vehicle: Vehicle }) {
     <Card>
       <CardContent className="space-y-4 p-6">
         <h3 className="font-semibold">Selectează asigurător RCA</h3>
-        <p className="text-sm text-[--color-muted-foreground]">
+        <p className="text-sm text-(--color-muted-foreground)">
           Comparăm prețurile la 8 asigurători în timp real prin agregatori publici.
         </p>
         <div className="grid gap-2">
@@ -195,11 +195,11 @@ function RcaStep({ caseId, vehicle }: { caseId: string; vehicle: Vehicle }) {
           ].map((q) => (
             <div
               key={q.name}
-              className="flex items-center justify-between rounded-lg border border-[--color-border] bg-white p-3"
+              className="flex items-center justify-between rounded-lg border border-(--color-border) bg-white p-3"
             >
               <div>
                 <div className="font-semibold">{q.name}</div>
-                <div className="text-xs text-[--color-muted-foreground]">
+                <div className="text-xs text-(--color-muted-foreground)">
                   Polița 12 luni · VIN {vehicle.vin.slice(-6)}
                 </div>
               </div>
@@ -232,12 +232,12 @@ function AppointmentStep({
     <Card>
       <CardContent className="space-y-4 p-6">
         <div className="flex items-start gap-3">
-          <div className="grid h-10 w-10 place-items-center rounded-lg bg-[--color-primary]/10 text-[--color-primary]">
+          <div className="grid h-10 w-10 place-items-center rounded-lg bg-(--color-primary)/10 text-(--color-primary)">
             <Calendar className="h-5 w-5" />
           </div>
           <div>
             <h3 className="font-semibold">Rezervă o programare la {org?.name}</h3>
-            <p className="text-sm text-[--color-muted-foreground]">
+            <p className="text-sm text-(--color-muted-foreground)">
               Sincronizăm cu calendarul oficial — fără cozi, fără apeluri telefonice.
             </p>
           </div>
@@ -277,22 +277,22 @@ function PaymentStep({ caseId, total }: { caseId: string; total: number }) {
     <Card>
       <CardContent className="space-y-4 p-6">
         <div className="flex items-start gap-3">
-          <div className="grid h-10 w-10 place-items-center rounded-lg bg-[--color-primary]/10 text-[--color-primary]">
+          <div className="grid h-10 w-10 place-items-center rounded-lg bg-(--color-primary)/10 text-(--color-primary)">
             <Receipt className="h-5 w-5" />
           </div>
           <div>
             <h3 className="font-semibold">Plata unică — toate taxele de stat</h3>
-            <p className="text-sm text-[--color-muted-foreground]">
+            <p className="text-sm text-(--color-muted-foreground)">
               Card, Apple Pay, Google Pay sau ghișeu BCR/BRD. Distribuim automat către instituții.
             </p>
           </div>
         </div>
-        <div className="rounded-xl border border-[--color-border] bg-[--color-background] p-4">
+        <div className="rounded-xl border border-(--color-border) bg-(--color-background) p-4">
           <div className="flex items-baseline justify-between">
-            <span className="text-sm text-[--color-muted-foreground]">Total de plată</span>
+            <span className="text-sm text-(--color-muted-foreground)">Total de plată</span>
             <span className="text-3xl font-bold tracking-tight tabular-nums">{formatRON(total)}</span>
           </div>
-          <p className="mt-2 text-xs text-[--color-muted-foreground]">
+          <p className="mt-2 text-xs text-(--color-muted-foreground)">
             Toate liniile sunt în coloana din dreapta — calculator live.
           </p>
         </div>

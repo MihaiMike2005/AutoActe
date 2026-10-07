@@ -7,7 +7,7 @@ const alertVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-[--color-border] bg-white text-[--color-foreground]",
+        default: "border-(--color-border) bg-white text-(--color-foreground)",
         info: "border-blue-200 bg-blue-50 text-blue-900",
         success: "border-emerald-200 bg-emerald-50 text-emerald-900",
         warning: "border-amber-200 bg-amber-50 text-amber-900",

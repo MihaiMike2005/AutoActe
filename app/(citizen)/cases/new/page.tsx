@@ -57,7 +57,7 @@ export default async function NewCasePage() {
       <div className="space-y-2 text-center">
         <Badge variant="default">Pasul 1 din 2</Badge>
         <h1 className="text-3xl font-bold tracking-tight">Cum ai ajuns la această mașină?</h1>
-        <p className="mx-auto max-w-2xl text-[--color-muted-foreground]">
+        <p className="mx-auto max-w-2xl text-(--color-muted-foreground)">
           Alege scenariul potrivit — pașii din wizard și deadline-urile se adaptează automat.
           Poți schimba scenariul oricând până să încarci primul document.
         </p>
@@ -68,22 +68,22 @@ export default async function NewCasePage() {
           <Card key={key} className="group transition-all hover:-translate-y-0.5 hover:shadow-lg">
             <CardContent className="space-y-4 p-6">
               <div className="flex items-start justify-between">
-                <div className="grid h-12 w-12 place-items-center rounded-xl bg-[--color-primary]/10 text-[--color-primary]">
+                <div className="grid h-12 w-12 place-items-center rounded-xl bg-(--color-primary)/10 text-(--color-primary)">
                   <Icon className="h-5 w-5" />
                 </div>
                 <Badge variant={badgeVariant}>{badge}</Badge>
               </div>
               <div className="space-y-2">
                 <h3 className="text-lg font-semibold">{title}</h3>
-                <p className="text-sm leading-relaxed text-[--color-muted-foreground]">{description}</p>
+                <p className="text-sm leading-relaxed text-(--color-muted-foreground)">{description}</p>
               </div>
               <form
                 action={createDraftCaseAction}
-                className="flex items-center justify-between border-t border-[--color-border] pt-4 text-sm"
+                className="flex items-center justify-between border-t border-(--color-border) pt-4 text-sm"
               >
                 <input type="hidden" name="scenario" value={key} />
                 <div>
-                  <div className="text-xs text-[--color-muted-foreground]">Durată tipică</div>
+                  <div className="text-xs text-(--color-muted-foreground)">Durată tipică</div>
                   <div className="font-semibold">{estimated}</div>
                 </div>
                 <Button type="submit">

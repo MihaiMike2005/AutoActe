@@ -50,21 +50,27 @@
   --radius: 0.75rem;
 }
 
-html,
-body {
-  height: 100%;
-}
+@layer base {
+  html,
+  body {
+    height: 100%;
+  }
 
-body {
-  background: var(--color-background);
-  color: var(--color-foreground);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-* {
-  border-color: var(--color-border);
+  *,
+  ::before,
+  ::after,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border);
+  }
 }
 
 @layer utilities {
@@ -81,7 +87,7 @@ body {
       linear-gradient(180deg, #0b1220 0%, #0a0f1e 100%);
   }
   .ring-focus {
-    @apply outline-none focus-visible:ring-2 focus-visible:ring-[--color-ring]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[--color-background];
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-(--color-ring)/40 focus-visible:ring-offset-2 focus-visible:ring-offset-(--color-background);
   }
 }
 
