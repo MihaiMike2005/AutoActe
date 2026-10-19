@@ -1,8 +1,8 @@
 # AutoActe — Înmatriculează inteligent
 
-AutoActe is a personal project: a working prototype of a unified, citizen-first flow for registering a vehicle in Romania. The real process spans DGPCI, RAR, ANAF, DGITL and an insurer; AutoActe models that whole journey as one guided wizard. You photograph your documents, Claude Vision fills in the fields, and the app keeps track of the legal deadline and the costs. The institutions themselves are not integrated: their steps are modelled with demo data.
+AutoActe is a working prototype of a unified, citizen-first flow for registering a vehicle in Romania. The real process spans DGPCI, RAR, ANAF, DGITL and an insurer; AutoActe models that whole journey as one guided wizard. You photograph your documents, Claude Vision fills in the fields, and the app keeps track of the legal deadline and the costs. The institutions themselves are not integrated: their steps are modelled with demo data.
 
-**Background:** started at Cluj Hackathon (May 2026), continued as a personal project.
+**Background:** started at Cluj Hackathon (May 2026).
 
 ---
 
@@ -92,7 +92,7 @@ supabase/migrations/       # 001-011 sql
 supabase/functions/        # planned: outbox-flusher, deadline-checker, notification-sender
 ```
 
-See [CLAUDE.md](CLAUDE.md) for the full project context. [EVENTS.md](EVENTS.md) is the event catalog (only the document events are emitted so far); [API.md](API.md) and [WEBHOOKS.md](WEBHOOKS.md) are design docs for the planned REST API and webhook contract.
+[EVENTS.md](EVENTS.md) is the event catalog (only the document events are emitted so far); [API.md](API.md) and [WEBHOOKS.md](WEBHOOKS.md) are design docs for the planned REST API and webhook contract.
 
 ---
 

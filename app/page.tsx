@@ -245,7 +245,7 @@ export default function Landing() {
         <div className="container-page flex flex-col items-center justify-between gap-4 md:flex-row">
           <Logo />
           <p className="text-xs text-(--color-muted-foreground)">
-            Proiect personal · Mihai Stefanita ·{" "}
+            Mihai Stefanita ·{" "}
             <a
               href={REPO_URL}
               target="_blank"
